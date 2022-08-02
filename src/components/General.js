@@ -1,63 +1,82 @@
 // General.js
 
-import React, { Component } from 'react';
+import React, { useState } from "react";
 
-class General extends Component {
-    constructor() {
-        super();
-        
-        this.state = {
-            userName: '',
-            title: '',
-            email: '',
-            phone: '',
-        };
-    }
+const General = () => {
+  const [info, setInfo] = useState({
+    name: "",
+    email: "",
+    phone: "",
+  });
 
-    handleChange = (e) => {
-        this.setState({ [e.target.name] : e.target.value });
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInfo({ ...info, [name]: value });
+  };
 
-    render() {
-        const { userName, title, email, phone } = this.state;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.target.style.display = "none";
+  };
 
-        return(
-           <div>
-                <input 
-                    onChange={this.handleChange}
-                    value={userName}
-                    type='text'
-                    name='userName'
-                    id='userName'
-                    placeholder='John Doe'
-                />
-                <input
-                    onChange={this.handleChange}
-                    value={title}
-                    type='text'
-                    name='title'
-                    id='title'
-                    placeholder='Employee'
-                />
-                <input
-                    onChange={this.handleChange}
-                    value={phone}
-                    type='text'
-                    name='phone'
-                    id='phone'
-                    placeholder='(123)-456-7890'
-                />
-                <input
-                    onChange={this.handleChange}
-                    value={email}
-                    type='text'
-                    name='email'
-                    id='email'
-                    placeholder='johndoe@website.com'
-                />
-           </div>
-        );
-    };
-}
+  return (
+    <div style={generalStyle}>
+      <div style={generalInfo}>
+        <h1>{info.name}</h1>
+        <div>{info.email}</div>
+        <div>{info.phone}</div>
+      </div>
+      <form onSubmit={handleSubmit} style={formStyle}>
+        <h3>General Info</h3>
+        <label htmlFor="name">Name</label>
+        <input
+          name="name"
+          type="text"
+          placeholder="John Doe"
+          value={info.name}
+          onChange={handleChange}
+        ></input>
+        <label htmlFor="email">Email</label>
+        <input
+          name="email"
+          type="email"
+          placeholder="johndoe@example.com"
+          value={info.email}
+          onChange={handleChange}
+        ></input>
+        <label htmlFor="phone">Phone Number</label>
+        <input
+          name="phone"
+          type="tel"
+          placeholder="123-456-7890"
+          value={info.phone}
+          onChange={handleChange}
+        ></input>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+const generalStyle = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  paddingLeft: "10rem",
+  paddingRight: "10rem",
+  height: "20vh",
+};
+const generalInfo = {
+  display: "flex",
+  flexDirection: "column",
+  height: "80%",
+};
+const formStyle = {
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  gap: "1rem",
+};
 
 export default General;
